@@ -5,7 +5,7 @@ import { createLogger } from "../common/logger";
 import { Fraction } from "./fraction";
 import { Token } from "./token";
 
-const logger = createLogger("Raydium_price");
+const logger = createLogger("Sega_price");
 
 interface PriceProps {
   baseToken: Token;

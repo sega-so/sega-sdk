@@ -12,7 +12,7 @@ export const SOL_INFO: TokenInfo = {
   logoURI: `https://img-v1.raydium.io/icon/So11111111111111111111111111111111111111112.png`,
   tags: [],
   priority: 2,
-  type: "raydium",
+  type: "sega",
   extensions: {
     coingeckoId: "solana",
   },
@@ -28,7 +28,7 @@ export const TOKEN_WSOL: TokenInfo = {
   logoURI: `https://img-v1.raydium.io/icon/So11111111111111111111111111111111111111112.png`,
   tags: [],
   priority: 2,
-  type: "raydium",
+  type: "sega",
   extensions: {
     coingeckoId: "solana",
   },

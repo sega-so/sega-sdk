@@ -16,10 +16,10 @@ import { createLogger } from "../logger";
 import { CacheLTA } from "./lookupTable";
 import { InstructionType } from "./txType";
 
-import { ComputeBudgetConfig } from "../../raydium/type";
+import { ComputeBudgetConfig } from "@/sega/type";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 
-const logger = createLogger("Raydium_txUtil");
+const logger = createLogger("Sega_txUtil");
 
 export const MAX_BASE64_SIZE = 1644;
 
@@ -99,7 +99,7 @@ export async function simulateMultipleInstruction(
   keyword: string,
   batchRequest = true,
 ): Promise<string[]> {
-  const feePayer = new PublicKey("RaydiumSimuLateTransaction11111111111111111");
+  const feePayer = new PublicKey("SegaSimuLateTransaction11111111111111111");
 
   const transactions: Transaction[] = [];
 

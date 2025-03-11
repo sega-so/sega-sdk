@@ -4,7 +4,7 @@ import Decimal from "decimal.js";
 import { ApiCpmmConfigInfo, ApiV3PoolInfoStandardItemCpmm, ApiV3Token, CpmmKeys } from "../../api/type";
 import { TxVersion } from "../../common/txTool/txType";
 import { Percent } from "../../module";
-import { ComputeBudgetConfig, GetTransferAmountFee, TxTipConfig } from "../../raydium/type";
+import { ComputeBudgetConfig, GetTransferAmountFee, TxTipConfig } from "@/sega/type";
 import { SwapResult } from "./curve/calculator";
 import { CpmmPoolInfoLayout } from "./layout";
 

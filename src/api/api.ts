@@ -4,24 +4,16 @@ import { createLogger, sleep } from "../common";
 import { Cluster } from "../solana";
 
 import {
-  ApiClmmConfigInfo,
   ApiCpmmConfigInfo,
   ApiV3Token,
-  FetchPoolParams,
-  PoolsApiReturn,
-  ApiV3PoolInfoItem,
-  PoolKeys,
-  FormatFarmInfoOut,
-  FormatFarmKeyOut,
   AvailabilityCheckAPI3,
-  PoolFetchType,
+  PoolKeys,
 } from "./type";
 import { API_URLS, API_URL_CONFIG } from "./url";
 import { updateReqHistory } from "./utils";
 import { PublicKey } from "@solana/web3.js";
-import { solToWSol } from "../common";
 
-const logger = createLogger("Raydium_Api");
+const logger = createLogger("Sega_Api");
 const poolKeysCache: Map<string, PoolKeys> = new Map();
 
 export async function endlessRetry<T>(name: string, call: () => Promise<T>, interval = 1000): Promise<T> {
@@ -123,20 +115,8 @@ export class Api {
     );
   }
 
-  async getClmmConfigs(): Promise<ApiClmmConfigInfo[]> {
-    const res = await this.api.get(this.urlConfigs.CLMM_CONFIG || API_URLS.CLMM_CONFIG);
-    return res.data;
-  }
-
   async getCpmmConfigs(): Promise<ApiCpmmConfigInfo[]> {
     const res = await this.api.get(this.urlConfigs.CPMM_CONFIG || API_URLS.CPMM_CONFIG);
-    return res.data;
-  }
-
-  async getClmmPoolLines(poolId: string): Promise<{ price: string; liquidity: string }[]> {
-    const res = await this.api.get(
-      `${this.urlConfigs.POOL_LIQUIDITY_LINE || API_URLS.POOL_LIQUIDITY_LINE}?pool_id=${poolId}`,
-    );
     return res.data;
   }
 
@@ -158,52 +138,6 @@ export class Api {
 
   async getChainTimeOffset(): Promise<{ offset: number }> {
     const res = await this.api.get(this.urlConfigs.CHAIN_TIME || API_URLS.CHAIN_TIME);
-    return res.data;
-  }
-
-  async getRpcs(): Promise<{
-    rpcs: { batch: boolean; name: string; url: string; weight: number }[];
-    strategy: string;
-  }> {
-    return this.api.get(this.urlConfigs.RPCS || API_URLS.RPCS);
-  }
-
-  async getTokenList(): Promise<{ mintList: ApiV3Token[]; blacklist: string[]; whiteList: string[] }> {
-    const res = await this.api.get(this.urlConfigs.TOKEN_LIST || API_URLS.TOKEN_LIST);
-    return res.data;
-  }
-
-  async getJupTokenList(): Promise<
-    (ApiV3Token & {
-      daily_volume: number;
-      freeze_authority: string | null;
-      mint_authority: string | null;
-    })[]
-  > {
-    return this.api.get("", {
-      baseURL: this.urlConfigs.JUP_TOKEN_LIST || API_URLS.JUP_TOKEN_LIST,
-    });
-  }
-
-  async getTokenInfo(mint: (string | PublicKey)[]): Promise<ApiV3Token[]> {
-    const res = await this.api.get(
-      (this.urlConfigs.MINT_INFO_ID || API_URLS.MINT_INFO_ID) + `?mints=${mint.map((m) => m.toString()).join(",")}`,
-    );
-    return res.data;
-  }
-
-  async getPoolList(props: FetchPoolParams = {}): Promise<PoolsApiReturn> {
-    const { type = "all", sort = "liquidity", order = "desc", page = 0, pageSize = 100 } = props;
-    const res = await this.api.get<PoolsApiReturn>(
-      (this.urlConfigs.POOL_LIST || API_URLS.POOL_LIST) +
-        `?poolType=${type}&poolSortField=${sort}&sortType=${order}&page=${page}&pageSize=${pageSize}`,
-    );
-    return res.data;
-  }
-
-  async fetchPoolById(props: { ids: string }): Promise<ApiV3PoolInfoItem[]> {
-    const { ids } = props;
-    const res = await this.api.get((this.urlConfigs.POOL_SEARCH_BY_ID || API_URLS.POOL_SEARCH_BY_ID) + `?ids=${ids}`);
     return res.data;
   }
 
@@ -234,48 +168,34 @@ export class Api {
     return cacheList.concat(data);
   }
 
-  async fetchPoolByMints(
-    props: {
-      mint1: string | PublicKey;
-      mint2?: string | PublicKey;
-    } & Omit<FetchPoolParams, "pageSize">,
-  ): Promise<PoolsApiReturn> {
-    const {
-      mint1: propMint1,
-      mint2: propMint2,
-      type = PoolFetchType.All,
-      sort = "default",
-      order = "desc",
-      page = 1,
-    } = props;
 
-    const [mint1, mint2] = [
-      propMint1 ? solToWSol(propMint1).toBase58() : propMint1,
-      propMint2 && propMint2 !== "undefined" ? solToWSol(propMint2).toBase58() : "",
-    ];
-    const [baseMint, quoteMint] = mint2 && mint1 > mint2 ? [mint2, mint1] : [mint1, mint2];
+  async getRpcs(): Promise<{
+    rpcs: { batch: boolean; name: string; url: string; weight: number }[];
+    strategy: string;
+  }> {
+    return this.api.get(this.urlConfigs.RPCS || API_URLS.RPCS);
+  }
 
+  async getTokenList(): Promise<{ mintList: ApiV3Token[]; blacklist: string[]; whiteList: string[] }> {
+    const res = await this.api.get(this.urlConfigs.TOKEN_LIST || API_URLS.TOKEN_LIST);
+    return res.data;
+  }
+
+  async getJupTokenList(): Promise<
+    (ApiV3Token & {
+      daily_volume: number;
+      freeze_authority: string | null;
+      mint_authority: string | null;
+    })[]
+  > {
+    return this.api.get("", {
+      baseURL: this.urlConfigs.JUP_TOKEN_LIST || API_URLS.JUP_TOKEN_LIST,
+    });
+  }
+
+  async getTokenInfo(mint: (string | PublicKey)[]): Promise<ApiV3Token[]> {
     const res = await this.api.get(
-      (this.urlConfigs.POOL_SEARCH_MINT || API_URLS.POOL_SEARCH_MINT) +
-        `?mint1=${baseMint}&mint2=${quoteMint}&poolType=${type}&poolSortField=${sort}&sortType=${order}&pageSize=100&page=${page}`,
-    );
-    return res.data;
-  }
-
-  async fetchFarmInfoById(props: { ids: string }): Promise<FormatFarmInfoOut[]> {
-    const { ids } = props;
-
-    const res = await this.api.get<FormatFarmInfoOut[]>(
-      (this.urlConfigs.FARM_INFO || API_URLS.FARM_INFO) + `?ids=${ids}`,
-    );
-    return res.data;
-  }
-
-  async fetchFarmKeysById(props: { ids: string }): Promise<FormatFarmKeyOut[]> {
-    const { ids } = props;
-
-    const res = await this.api.get<FormatFarmKeyOut[]>(
-      (this.urlConfigs.FARM_KEYS || API_URLS.FARM_KEYS) + `?ids=${ids}`,
+      (this.urlConfigs.MINT_INFO_ID || API_URLS.MINT_INFO_ID) + `?mints=${mint.map((m) => m.toString()).join(",")}`,
     );
     return res.data;
   }

@@ -8,19 +8,13 @@ import { Owner } from "../common/owner";
 import { Cluster } from "../solana";
 
 import Account, { TokenAccountDataProp } from "./account/account";
-import Farm from "./farm/farm";
-import Liquidity from "./liquidity/liquidity";
-import { Clmm } from "./clmm";
 import Cpmm from "./cpmm/cpmm";
-import TradeV2 from "./tradeV2/trade";
 import Utils1216 from "./utils1216";
-import MarketV2 from "./marketV2";
-import Ido from "./ido";
 
 import TokenModule from "./token/token";
 import { SignAllTransactions } from "./type";
 
-export interface RaydiumLoadParams extends TokenAccountDataProp, Omit<RaydiumApiBatchRequestParams, "api"> {
+export interface SegaLoadParams extends TokenAccountDataProp, Omit<SegaApiBatchRequestParams, "api"> {
   /* ================= solana ================= */
   // solana web3 connection
   connection: Connection;
@@ -45,13 +39,13 @@ export interface RaydiumLoadParams extends TokenAccountDataProp, Omit<RaydiumApi
   loopMultiTxStatus?: boolean;
 }
 
-export interface RaydiumApiBatchRequestParams {
+export interface SegaApiBatchRequestParams {
   api: Api;
   defaultChainTimeOffset?: number;
   defaultChainTime?: number;
 }
 
-export type RaydiumConstructorParams = Required<RaydiumLoadParams> & RaydiumApiBatchRequestParams;
+export type SegaConstructorParams = Required<SegaLoadParams> & SegaApiBatchRequestParams;
 
 interface DataBase<T> {
   fetched: number;
@@ -66,17 +60,11 @@ interface ApiData {
   jupTokenList?: DataBase<ApiV3Token[]>;
 }
 
-export class Raydium {
+export class Sega {
   public cluster: Cluster;
-  public farm: Farm;
   public account: Account;
-  public liquidity: Liquidity;
-  public clmm: Clmm;
   public cpmm: Cpmm;
-  public tradeV2: TradeV2;
   public utils1216: Utils1216;
-  public marketV2: MarketV2;
-  public ido: Ido;
   public token: TokenModule;
   public rawBalances: Map<string, string> = new Map();
   public apiData: ApiData;
@@ -102,7 +90,7 @@ export class Raydium {
     value: EpochInfo;
   };
 
-  constructor(config: RaydiumConstructorParams) {
+  constructor(config: SegaConstructorParams) {
     const {
       connection,
       cluster,
@@ -124,22 +112,16 @@ export class Raydium {
 
     this.api = api;
     this._apiCacheTime = apiCacheTime || 5 * 60 * 1000;
-    this.logger = createLogger("Raydium");
-    this.farm = new Farm({ scope: this, moduleName: "Raydium_Farm" });
+    this.logger = createLogger("Sega");
     this.account = new Account({
       scope: this,
-      moduleName: "Raydium_Account",
+      moduleName: "Sega_Account",
       tokenAccounts: config.tokenAccounts,
       tokenAccountRawInfos: config.tokenAccountRawInfos,
     });
-    this.liquidity = new Liquidity({ scope: this, moduleName: "Raydium_LiquidityV2" });
-    this.token = new TokenModule({ scope: this, moduleName: "Raydium_tokenV2" });
-    this.tradeV2 = new TradeV2({ scope: this, moduleName: "Raydium_tradeV2" });
-    this.clmm = new Clmm({ scope: this, moduleName: "Raydium_clmm" });
-    this.cpmm = new Cpmm({ scope: this, moduleName: "Raydium_cpmm" });
-    this.utils1216 = new Utils1216({ scope: this, moduleName: "Raydium_utils1216" });
-    this.marketV2 = new MarketV2({ scope: this, moduleName: "Raydium_marketV2" });
-    this.ido = new Ido({ scope: this, moduleName: "Raydium_ido" });
+    this.token = new TokenModule({ scope: this, moduleName: "Sega_tokenV2" });
+    this.cpmm = new Cpmm({ scope: this, moduleName: "Sega_cpmm" });
+    this.utils1216 = new Utils1216({ scope: this, moduleName: "Sega_utils1216" });
 
     this.availability = {};
     const now = new Date().getTime();
@@ -155,8 +137,8 @@ export class Raydium {
       };
   }
 
-  static async load(config: RaydiumLoadParams): Promise<Raydium> {
-    const custom: Required<RaydiumLoadParams> = merge(
+  static async load(config: SegaLoadParams): Promise<Sega> {
+    const custom: Required<SegaLoadParams> = merge(
       // default
       {
         cluster: "mainnet",
@@ -169,18 +151,18 @@ export class Raydium {
     const { cluster, apiRequestTimeout, logCount, logRequests, urlConfigs } = custom;
 
     const api = new Api({ cluster, timeout: apiRequestTimeout, urlConfigs, logCount, logRequests });
-    const raydium = new Raydium({
+    const sega = new Sega({
       ...custom,
       api,
     });
 
-    await raydium.fetchAvailabilityStatus(config.disableFeatureCheck ?? true);
+    await sega.fetchAvailabilityStatus(config.disableFeatureCheck ?? true);
     if (!config.disableLoadToken)
-      await raydium.token.load({
+      await sega.token.load({
         type: config.jupTokenType,
       });
 
-    return raydium;
+    return sega;
   }
 
   get owner(): Owner | undefined {
@@ -190,7 +172,7 @@ export class Raydium {
     if (!this._owner) throw new Error(EMPTY_OWNER);
     return this._owner.publicKey;
   }
-  public setOwner(owner?: PublicKey | Keypair): Raydium {
+  public setOwner(owner?: PublicKey | Keypair): Sega {
     this._owner = owner ? new Owner(owner) : undefined;
     this.account.resetTokenAccounts();
     return this;
@@ -199,14 +181,14 @@ export class Raydium {
     if (!this._connection) throw new Error(EMPTY_CONNECTION);
     return this._connection;
   }
-  public setConnection(connection: Connection): Raydium {
+  public setConnection(connection: Connection): Sega {
     this._connection = connection;
     return this;
   }
   get signAllTransactions(): SignAllTransactions | undefined {
     return this._signAllTransactions;
   }
-  public setSignAllTransactions(signAllTransactions?: SignAllTransactions): Raydium {
+  public setSignAllTransactions(signAllTransactions?: SignAllTransactions): Sega {
     this._signAllTransactions = signAllTransactions;
     return this;
   }
@@ -241,10 +223,10 @@ export class Raydium {
     if (this.apiData.tokenList && !this.isCacheInvalidate(this.apiData.tokenList.fetched) && !forceUpdate)
       return this.apiData.tokenList.data;
     try {
-      const raydiumList = await this.api.getTokenList();
+      const segaList = await this.api.getTokenList();
       const dataObject = {
         fetched: Date.now(),
-        data: raydiumList,
+        data: segaList,
       };
       this.apiData.tokenList = dataObject;
 

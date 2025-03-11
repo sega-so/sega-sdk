@@ -121,3 +121,5 @@ test/local/
 test/data/
 
 example/node_modules/
+.idea
+pnpm-lock.yaml

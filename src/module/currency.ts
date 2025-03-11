@@ -1,4 +1,4 @@
-import { SOL_INFO } from "../raydium/token/constant";
+import { SOL_INFO } from "@/sega/token/constant";
 
 import { Token } from "./token";
 

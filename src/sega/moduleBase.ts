@@ -3,10 +3,10 @@ import { PublicKey } from "@solana/web3.js";
 import { createLogger, Logger } from "../common/logger";
 import { TxBuilder } from "../common/txTool/txTool";
 
-import { Raydium } from "./";
+import { Sega } from "./";
 
 export interface ModuleBaseProps {
-  scope: Raydium;
+  scope: Sega;
   moduleName: string;
 }
 
@@ -21,7 +21,7 @@ const joinMsg = (...args: (string | number | Record<string, any>)[]): string =>
     })
     .join(", ");
 export default class ModuleBase {
-  public scope: Raydium;
+  public scope: Sega;
   private disabled = false;
   protected logger: Logger;
 

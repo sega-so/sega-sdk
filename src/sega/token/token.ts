@@ -43,7 +43,7 @@ export default class TokenModule extends ModuleBase {
       if (this._blackTokenMap.has(token.address)) return;
       this._tokenMap.set(token.address, {
         ...token,
-        type: "raydium",
+        type: "sega",
         priority: 2,
         programId:
           token.programId ??

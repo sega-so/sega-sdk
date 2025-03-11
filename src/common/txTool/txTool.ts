@@ -14,7 +14,7 @@ import {
 import axios from "axios";
 
 import { Api } from "../../api";
-import { ComputeBudgetConfig, SignAllTransactions, TxTipConfig } from "../../raydium/type";
+import { ComputeBudgetConfig, SignAllTransactions, TxTipConfig } from "@/sega/type";
 import { Cluster } from "../../solana";
 import { Owner } from "../owner";
 import { CacheLTA, getMultipleLookupTableInfo, LOOKUP_TABLE_CACHE } from "./lookupTable";

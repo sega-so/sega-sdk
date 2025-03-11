@@ -11,7 +11,7 @@ export enum Rounding {
 const MAX_SAFE = 0x1fffffffffffff;
 
 export function parseBigNumberish(value: BigNumberish): BN {
-  const logger = createLogger("Raydium_parseBigNumberish");
+  const logger = createLogger("Sega_parseBigNumberish");
   // BN
   if (value instanceof BN) {
     return value;

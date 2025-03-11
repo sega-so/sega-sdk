@@ -2,7 +2,7 @@ import { PublicKey } from "@solana/web3.js";
 import BN from "bn.js";
 
 import { Fraction, Percent, Price, Token, TokenAmount } from "../module";
-import { ReplaceType } from "../raydium/type";
+import { ReplaceType } from "@/sega/type";
 
 import { tryParsePublicKey } from "./pubKey";
 

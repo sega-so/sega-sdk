@@ -39,6 +39,7 @@
     "watch": "rm -rf lib && tsup src --watch --format cjs,esm --dts --sourcemap --no-splitting --minify -d lib"
   },
   "dependencies": {
+    "@noble/hashes": "^1.7.1",
     "@solana/buffer-layout": "^4.0.1",
     "@solana/spl-token": "^0.4.8",
     "@solana/web3.js": "^1.95.3",
@@ -46,6 +47,7 @@
     "big.js": "^6.2.1",
     "bn.js": "^5.2.1",
     "dayjs": "^1.11.5",
+    "decimal.js": "^10.5.0",
     "decimal.js-light": "^2.5.1",
     "jsonfile": "^6.1.0",
     "lodash": "^4.17.21",

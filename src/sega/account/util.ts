@@ -6,7 +6,7 @@ import { sha256 } from "@noble/hashes/sha256";
 import { splAccountLayout } from "./layout";
 import { TokenAccount, TokenAccountRaw } from "./types";
 
-const logger = createLogger("Raydium_Util");
+const logger = createLogger("Sega_Util");
 
 export interface ParseTokenAccount {
   owner: PublicKey;

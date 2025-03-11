@@ -1,5 +1,5 @@
 import { AccountInfo, Commitment, Connection, PublicKey } from "@solana/web3.js";
-import { ReturnTypeFetchMultipleMintInfos } from "../raydium/type";
+import { ReturnTypeFetchMultipleMintInfos } from "@/sega/type";
 import { WSOLMint, chunkArray, solToWSol } from "./";
 import { createLogger } from "./logger";
 import { MINT_SIZE, TOKEN_PROGRAM_ID, getTransferFeeConfig, unpackMint } from "@solana/spl-token";
@@ -23,7 +23,7 @@ export interface GetMultipleAccountsInfoConfig {
   chunkCount?: number;
 }
 
-const logger = createLogger("Raydium_accountInfo_util");
+const logger = createLogger("Sega_accountInfo_util");
 
 export async function getMultipleAccountsInfo(
   connection: Connection,

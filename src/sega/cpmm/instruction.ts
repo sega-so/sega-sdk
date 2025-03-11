@@ -10,18 +10,17 @@ import {
   createLogger,
   CREATE_CPMM_POOL_PROGRAM,
   CREATE_CPMM_POOL_AUTH,
-  InstructionType,
+  InstructionType, getPdaMetadataKey,
 } from "@/common";
 import { getCpmmPdaPoolId, getCpLockPda } from "./pda";
 
 import { struct, u64, bool } from "@/marshmallow";
-import { ReturnTypeMakeInstructions } from "@/raydium/type";
+import { ReturnTypeMakeInstructions } from "@/sega/type";
 import { ApiV3PoolInfoStandardItemCpmm, CpmmKeys } from "@/api";
 import { getATAAddress } from "@/common";
-import { getPdaMetadataKey } from "../clmm";
 import { CpmmLockExtInfo } from "./type";
 
-const logger = createLogger("Raydium_cpmm");
+const logger = createLogger("Sega_cpmm");
 const anchorDataBuf = {
   initialize: [175, 175, 109, 31, 13, 152, 155, 237],
   deposit: [242, 35, 198, 137, 82, 225, 242, 182],
