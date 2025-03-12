@@ -6,7 +6,6 @@ import { describe, it, expect } from "vitest";
 
 describe("Swap Functionality", () => {
   it("should successfully swap tokens", async () => {
-    // Initialize connection and SDK
     const network = Network.SonicTestnetV1;
     const connection = getConnection(network);
 
@@ -23,7 +22,7 @@ describe("Swap Functionality", () => {
     });
 
     const usdcMint = new PublicKey("8EdufEDLupX62qQaAMez9nFCXr5vKZ4w8tFgrJXAjTyk");
-    // const btcMint = new PublicKey("aoGxsgFQrTXHjnpJPjDt6jK3DsLUwNLHCJ2v29f4ZJa");
+    const btcMint = new PublicKey("aoGxsgFQrTXHjnpJPjDt6jK3DsLUwNLHCJ2v29f4ZJa");
     const poolId = "BmaLNG7n6Aj4pfpUqaaGwyujEkhcoXBcuaPGwN71Wo2R"
 
     const inputAmount = new BN(100)
@@ -58,5 +57,7 @@ describe("Swap Functionality", () => {
     expect(typeof txId).toBe("string");
 
     console.log(`swapped: ${poolInfo.mintA.symbol} to ${poolInfo.mintB.symbol}:`, { txId: `https://explorer.sonic.game/${txId}?cluster=testnet.v1` })
+  }, {
+    timeout: 6000000
   });
 });

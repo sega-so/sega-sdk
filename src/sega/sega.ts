@@ -157,11 +157,6 @@ export class Sega {
     });
 
     await sega.fetchAvailabilityStatus(config.disableFeatureCheck ?? true);
-    if (!config.disableLoadToken)
-      await sega.token.load({
-        type: config.jupTokenType,
-      });
-
     return sega;
   }
 
