@@ -2,8 +2,10 @@ import { Keypair, PublicKey } from "@solana/web3.js";
 import { Sega, Network, getConnection, CurveCalculator } from "../src/index";
 import BN from "bn.js";
 import bs58 from "bs58";
+import { describe, it, expect } from "vitest";
 
-async function swap() {
+describe("Swap Functionality", () => {
+  it("should successfully swap tokens", async () => {
     // Initialize connection and SDK
     const network = Network.SonicTestnetV1;
     const connection = getConnection(network);
@@ -50,7 +52,11 @@ async function swap() {
       baseIn,
     })
     const { txId } = await execute({ sendAndConfirm: true })
-    console.log(`swapped: ${poolInfo.mintA.symbol} to ${poolInfo.mintB.symbol}:`, { txId: `https://explorer.sonic.game/${txId}?cluster=testnet.v1`})
-}
 
-swap()
+    // Add assertions
+    expect(txId).toBeDefined();
+    expect(typeof txId).toBe("string");
+
+    console.log(`swapped: ${poolInfo.mintA.symbol} to ${poolInfo.mintB.symbol}:`, { txId: `https://explorer.sonic.game/${txId}?cluster=testnet.v1` })
+  });
+});

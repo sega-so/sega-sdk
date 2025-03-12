@@ -21,14 +21,12 @@ export function notInnerObject(v: unknown): v is Record<string, any> {
     ![Token, TokenAmount, PublicKey, Fraction, BN, Price, Percent].some((o) => typeof o === "object" && v instanceof o)
   );
 }
-
 export function jsonInfo2PoolKeys<T>(jsonInfo: T): ReplaceType<T, string, PublicKey> {
-  // @ts-expect-error no need type for inner code
   return typeof jsonInfo === "string"
-    ? tryParsePublicKey(jsonInfo)
+    ? tryParsePublicKey(jsonInfo) as ReplaceType<T, string, PublicKey>
     : Array.isArray(jsonInfo)
-    ? jsonInfo.map((k) => jsonInfo2PoolKeys(k))
-    : notInnerObject(jsonInfo)
-    ? Object.fromEntries(Object.entries(jsonInfo).map(([k, v]) => [k, jsonInfo2PoolKeys(v)]))
-    : jsonInfo;
+      ? jsonInfo.map((k) => jsonInfo2PoolKeys(k)) as ReplaceType<T, string, PublicKey>
+      : notInnerObject(jsonInfo)
+        ? Object.fromEntries(Object.entries(jsonInfo).map(([k, v]) => [k, jsonInfo2PoolKeys(v)])) as ReplaceType<T, string, PublicKey>
+        : jsonInfo as ReplaceType<T, string, PublicKey>;
 }

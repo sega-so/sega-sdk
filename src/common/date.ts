@@ -1,6 +1,6 @@
 export type TimeStamp = string | number | Date;
 
-export const isNumber = (val): boolean => typeof val === "number";
+export const isNumber = (val: unknown): boolean => typeof val === "number";
 export type DateParam = string | number | Date | undefined;
 
 export const getDate = (value?: DateParam): Date => (value ? new Date(value) : new Date());
@@ -11,7 +11,7 @@ export function isDateBefore(timestampA: TimeStamp, timestampB: TimeStamp, optio
   const realTimestampB = isNumber(timestampB)
     ? (timestampB as number) * (options?.unit === "s" ? 1000 : 1)
     : timestampB;
-  return new Date(timestampA).getTime() <= realTimestampB;
+  return new Date(timestampA).getTime() <= +realTimestampB;
 }
 
 /** A must be milliseconds */
@@ -19,7 +19,7 @@ export function isDateAfter(timestampA: TimeStamp, timestampB: TimeStamp, option
   const realTimestampB = isNumber(timestampB)
     ? (timestampB as number) * (options?.unit === "s" ? 1000 : 1)
     : timestampB;
-  return new Date(timestampA).getTime() > realTimestampB;
+  return new Date(timestampA).getTime() > +realTimestampB;
 }
 
 export function offsetDateTime(
