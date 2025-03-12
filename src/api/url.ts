@@ -1,5 +1,5 @@
 export const API_URLS = {
-  BASE_HOST: "https://api.sega.io",
+  BASE_HOST: "https://api.sega.so/api",
 
   SEND_TRANSACTION: "/send-transaction",
   FARM_ARP: "/main/farm/info",
