@@ -1,1 +1,1 @@
-export type Cluster = "mainnet" | "devnet";
+export type Cluster = "mainnet" | "devnet" | "testnet";

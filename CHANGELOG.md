@@ -31,7 +31,7 @@
 ### 1.0.1-beta.42 (2022-03-11)
 
 - Change
-  - Fix init stable model layout
+  - Fix swapSpec stable model layout
 
 ### 1.0.1-beta.41 (2022-03-11)
 
