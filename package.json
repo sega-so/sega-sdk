@@ -1,6 +1,6 @@
 {
-  "name": "@sega-io/sega-sdk",
-  "version": "0.1.0-alpha",
+  "name": "@sega-so/sega-sdk",
+  "version": "0.1.1",
   "description": "An SDK for building applications on top of SEGA.",
   "license": "GPL-3.0",
   "main": "./lib/index.js",
@@ -16,7 +16,6 @@
     "./lib",
     "./src"
   ],
-  "repository": "https://github.com/sega-io/sega-sdk",
   "publicConfig": {
     "registry": "https://registry.yarnpkg.com",
     "access": "public"
