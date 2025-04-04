@@ -405,7 +405,7 @@ export class TxBuilder {
               i++;
               let confirmed = false;
               // eslint-disable-next-line
-              let intervalId: NodeJS.Timer | null = null,
+              let intervalId: any = null,
                 subSignatureId: number | null = null;
               const cbk = (signatureResult: SignatureResult): void => {
                 intervalId !== null && clearInterval(intervalId);
