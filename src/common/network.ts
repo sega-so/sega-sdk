@@ -11,6 +11,10 @@ export function getConnection(networkName: string, isArchive = true): Connection
   return new Connection(isArchive ? archiveRpcs[networkName] : rpcs[networkName])
 }
 
+export function getProgramId(networkName: string): Record<string, PublicKey> {
+  return programIds[networkName]
+}
+
 export const rpcs: Record<Network, string> = {
   [Network.SonicMainnet]: 'https://api.mainnet-alpha.sonic.game',
   [Network.SonicTestnetV1]: 'https://api.testnet.v1.sonic.game',
