@@ -8,6 +8,10 @@ export const DEV_CREATE_CPMM_POOL_PROGRAM = new PublicKey("auetiVUVJkRxvNPLYEvVn
 export const DEV_CREATE_CPMM_POOL_AUTH = new PublicKey("GzqQwxPSmUZnTyCfX9YWqi32MJg43ujP786ZoacL559Y");
 export const DEV_CREATE_CPMM_POOL_FEE_ACC = new PublicKey("GzqQwxPSmUZnTyCfX9YWqi32MJg43ujP786ZoacL559Y");
 
+export const SOLANA_CPMM_POOL_PROGRAM = new PublicKey("SegaXNnoXYTZiqUt9Xn2XqGcL56b25yzXLuJSpadcMu")
+export const SOLANA_CPMM_POOL_AUTH = new PublicKey("2t1hV2YqnDCPuJZqr7Fy8oAygGwZE5Q9uaQzpLC1QryJ")
+export const SOLANA_CPMM_POOL_FEE_ACC = new PublicKey("BLxynZeHE123MmQgNJZiV1pwW4VYh46oZYyC66xwmtTY")
+
 export const ALL_PROGRAM_ID = {
   CREATE_CPMM_POOL_PROGRAM,
   CREATE_CPMM_POOL_AUTH,
@@ -15,6 +19,18 @@ export const ALL_PROGRAM_ID = {
 };
 
 export type ProgramIdConfig = Partial<typeof ALL_PROGRAM_ID>;
+
+export const SONIC_PROGRAM_ID = {
+  CREATE_CPMM_POOL_PROGRAM,
+  CREATE_CPMM_POOL_AUTH,
+  CREATE_CPMM_POOL_FEE_ACC,
+};
+
+export const SOLANA_PROGRAM_ID = {
+  CREATE_CPMM_POOL_PROGRAM: SOLANA_CPMM_POOL_PROGRAM,
+  CREATE_CPMM_POOL_AUTH: SOLANA_CPMM_POOL_AUTH,
+  CREATE_CPMM_POOL_FEE_ACC: SOLANA_CPMM_POOL_FEE_ACC,
+};
 
 export const DEVNET_PROGRAM_ID = {
   SERUM_MARKET: PublicKey.default,
