@@ -77,4 +77,4 @@ export const SOLANA_API_URLS = {
   BASE_HOST: "https://api-sol.sega.so/api",
 };
 
-export type API_URL_CONFIG = Partial<typeof API_URLS>;
+export type API_URL_CONFIG = Partial<typeof API_URLS | typeof DEV_API_URLS | typeof SOLANA_API_URLS>;
