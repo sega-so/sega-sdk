@@ -4,7 +4,7 @@ export const CREATE_CPMM_POOL_PROGRAM = new PublicKey("SegazTQwbYWknDZkJ6j2Kgvm5
 export const CREATE_CPMM_POOL_AUTH = new PublicKey("Ajk8d9bERSaFdeoT1d8JUVfaDayrYLnAdgeB47TFMUaG");
 export const CREATE_CPMM_POOL_FEE_ACC = new PublicKey("2HbjxVVKJ7Ct72Rcd8WK4VTqmwTXL5aAggkH1CHGFGmh");
 
-export const DEV_CREATE_CPMM_POOL_PROGRAM = new PublicKey("TegaRdjn9Qeh9DfUU28X19aPPpJtj9gs8ntSYrR5H4K ");
+export const DEV_CREATE_CPMM_POOL_PROGRAM = new PublicKey("TegaRdjn9Qeh9DfUU28X19aPPpJtj9gs8ntSYrR5H4K");
 export const DEV_CREATE_CPMM_POOL_AUTH = new PublicKey("GzqQwxPSmUZnTyCfX9YWqi32MJg43ujP786ZoacL559Y");
 export const DEV_CREATE_CPMM_POOL_FEE_ACC = new PublicKey("GzqQwxPSmUZnTyCfX9YWqi32MJg43ujP786ZoacL559Y");
 
